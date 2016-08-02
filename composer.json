@@ -1,0 +1,17 @@
+{
+    "name": "bohdanbobrowski/k3b_backuptool",
+    "description": "K3B Backup Tool",
+    "authors": [
+        {
+            "name": "Bohdan Bobrowski",
+            "email": "bohdan.bobrowski@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "classmap": [
+            "k3b/"
+        ]
+    }
+}
