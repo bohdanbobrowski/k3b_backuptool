@@ -59,8 +59,8 @@ class K3B {
         }
         if (count($rel_path) > 1) {
             if (!isset($child)) {
-                $child = $xml->addChild('directory');
-                $child->addAttribute('name', $rel_path[0]);
+				$child = $xml->addChild('directory');
+                $child->addAttribute('name', htmlspecialchars($rel_path[0]));
             }
             unset($rel_path[0]);
             $rel_path = array_values($rel_path);
@@ -68,9 +68,9 @@ class K3B {
         } elseif ($path) {
             if (!isset($child)) {
                 $child = $xml->addChild('file');
-                $child->addAttribute('name', $rel_path[0]);
+                $child->addAttribute('name', htmlspecialchars($rel_path[0]));
             }
-            $url = $child->addChild('url', $path);
+            $url = $child->addChild('url', htmlspecialchars($path));
         }
         return $xml;
     }
