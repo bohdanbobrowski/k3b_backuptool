@@ -4,14 +4,18 @@ class K3B {
 
     public $real_path = '';
     public $total = 0;
-    public $limit = 4400000000;
     public $count = 1;
     public $files = array();
     public $project_name = '';
 
-    public function __construct($name = '', $path = '.') {
+	public function __construct($name = '', $path = '.', $limit = FALSE) {		
         $this->project_name = $name;
-        $this->real_path = realpath($path);
+		$this->real_path = realpath($path);
+		if($limit === FALSE) {
+			$this->limit = 4400000000;
+		} else {			
+			$this->limit = $this->convertToBytes($limit);
+		}
         $this->getDirContents($path);
         $this->prepareProjectFile();
     }
@@ -21,7 +25,22 @@ class K3B {
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
-    
+
+	// http://stackoverflow.com/questions/11807115/php-convert-kb-mb-gb-tb-etc-to-bytes
+	protected function convertToBytes($from){
+		$number=substr($from,0,-1);
+		switch(strtoupper(substr($from,-1))){
+			case "K":
+				return $number*1024;
+			case "M":
+				return $number*pow(1024,2);
+			case "G":
+				return $number*pow(1024,3);
+			default:
+				return $from;
+		}
+	}
+
     protected function prepareProjectFile() {
         if($this->count > 1) {
             $project_name = $this->project_name."_".$this->count;
